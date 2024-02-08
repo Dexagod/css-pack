@@ -1,0 +1,52 @@
+{
+  "name": "@solidlab/pack",
+  "version": "1.0.0",
+  "description": "Packaging for data retrieval through content type negotiation.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "css",
+    "solid",
+    "community solid server",
+    "solid community server",
+    "packaging",
+    "content negotiation"
+  ],
+  "engines": {
+    "node": ">=20.0"
+  },
+  "dependencies": {
+    "@rdfjs/types": "^1.1.0",
+    "@solid/community-server": "^7.0.4",
+    "componentsjs-generator": "^3.1.2",
+    "jest-rdf": "^1.8.1",
+    "rdf-package": "SolidLabResearch/RDF-Package"
+  },
+  "lsd:module": "https://linkedsoftwaredependencies.org/bundles/npm/css-package",
+  "lsd:components": "dist/components/components.jsonld",
+  "lsd:contexts": {
+    "https://linkedsoftwaredependencies.org/bundles/npm/css-package/^1.0.0/components/context.jsonld": "dist/components/context.jsonld"
+  },
+  "lsd:importPaths": {
+    "https://linkedsoftwaredependencies.org/bundles/npm/css-package/^1.0.0/components/": "dist/components/",
+    "https://linkedsoftwaredependencies.org/bundles/npm/css-package/^1.0.0/config/": "config/",
+    "https://linkedsoftwaredependencies.org/bundles/npm/css-package/^1.0.0/dist/": "dist/"
+  },
+  "scripts": {
+    "start": "community-solid-server -c @css:config/file.json config/quad-to-package.json -f .data -m .",
+    "start:seeded": "community-solid-server -c @css:config/file.json config/quad-to-package.json -f .data -m . --seedConfig ./config/seed.json",
+    "build": "npm run build:ts && npm run build:components && npm run build:n3-problem",
+    "build:components": "componentsjs-generator -s src -c dist/components -i .componentsignore -r css-package",
+    "build:ts": "tsc",
+    "build:n3-problem": "cd node_modules/rdf-package/node_modules/n3; yarn install ; yarn run build; cd ../../../..",
+    "prepare": "npm run build",
+    "test": "jest"
+  },
+  "files": [
+    "dist",
+    "config"
+  ],
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
